@@ -12,12 +12,12 @@ GPIO.output(ledPin, GPIO.LOW)
 
 while True: 
     if button.is_pressed:
-        time.sleep(0.5)
+        time.sleep(0.1)
         if button.is_pressed: 
             GPIO.output(ledPin, GPIO.HIGH)
             time.sleep(0.5)
             GPIO.output(ledPin, GPIO.LOW)
-    time.sleep(0.5)
+    time.sleep(0.1)
 
 #----------------------------------------
 
