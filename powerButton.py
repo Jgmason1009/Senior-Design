@@ -18,7 +18,8 @@ while True:
             turnOff = True 
             time.sleep(1)
             if button.is_pressed: 
-                fileName = r"/Scripts/main.py"
+                print("\nRunning sorting script...\n")
+                fileName = r"/home/jaret/Scripts/main.py"
                 cmd = ['python3', fileName]
                 subprocess.run(cmd)
     time.sleep(1)
