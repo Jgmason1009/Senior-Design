@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 from gpiozero import Button
 from picamera2 import Picamera2
 
-ledPin = 12
+ledPin = 27
 button = Button(17)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(ledPin, GPIO.OUT)
