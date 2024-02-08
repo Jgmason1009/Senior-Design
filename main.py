@@ -19,15 +19,18 @@ ser = serial.Serial("/dev/ttyUSB0", 9600)
 ser.baudrate = 9600
 
 #set pin modes for motors 
-vibMotor = 27
+vibMotor1 = 27
+vibMotor2 = 22
 vexMotor = 18
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(vibMotor, GPIO.OUT)
+GPIO.setup(vibMotor1, GPIO.OUT)
+GPIO.setup(vibMotor2, GPIO.OUT)
 GPIO.setup(vexMotor, GPIO.OUT)
-GPIO.output(vibMotor, GPIO.LOW)
+GPIO.output(vibMotor1, GPIO.LOW)
+GPIO.output(vibMotor2, GPIO.LOW)
 
 piPWM = GPIO.PWM(vexMotor, 50)	
 
@@ -92,15 +95,18 @@ ser.write(b'1\n')
 
 #turn on conveyor belt 
 piPWM.start(10)
-#turn on vibrational motor
-GPIO.output(vibMotor, GPIO.HIGH)
+#turn on vibrational motors
+GPIO.output(vibMotor1, GPIO.HIGH)
+GPIO.output(vibMotor2, GPIO.HIGH)
 
 while(1):
     newData = ser.read()
     #wait for break beam to go low
     if newData == b'1':
-        #turn vibrational motor off
-        GPIO.output(vibMotor, GPIO.LOW)
+        #turn conveyor and vibrational motors off
+        piPWM.changeDutyCycle(0)
+        GPIO.output(vibMotor1, GPIO.LOW)
+        GPIO.output(vibMotor2, GPIO.LOW)
     elif newData == b'2': 
         ###########################
         #IMAGE CLASSIFICATION
@@ -114,8 +120,10 @@ while(1):
         time.sleep(0.5)
         #move trap door servo back to starting position
         kit.servo[0].angle = 0
-        #turn vibrational motor back on
-        GPIO.output(vibMotor, GPIO.HIGH)
+        #turn conveyor and vibrational motors back on
+        piPWM.changeDutyCycle(10)
+        GPIO.output(vibMotor1, GPIO.HIGH)
+        GPIO.output(vibMotor2, GPIO.HIGH)
 
         #test code 
         if category < 12: 
